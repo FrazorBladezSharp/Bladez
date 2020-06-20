@@ -19,6 +19,7 @@
 
 #include <QObject>
 #include <QUdpSocket>
+#include <QNetworkDatagram>
 #include <QByteArray>
 
 class ServerService : public QObject
@@ -30,9 +31,10 @@ class ServerService : public QObject
     public:
         explicit ServerService();
         ~ServerService();
-
         void sendDatagrams();
+        void readPendingDatagrams();
  
     private:
         QByteArray CreateTheDatagram();
+        void processTheDatagram(QNetworkDatagram datagram);
 };

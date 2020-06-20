@@ -29,6 +29,5 @@ int main(int argc, char *argv[])
     ServerService server;
     server.sendDatagrams();
 
-    //return a.exec();
-    return 0;
+    return a.exec();
 }

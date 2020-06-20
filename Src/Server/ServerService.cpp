@@ -21,7 +21,11 @@
 ServerService::ServerService()
     : m_udpSocket(new QUdpSocket(this))
 {
-    m_udpSocket->bind(QHostAddress::LocalHost, 2020);
+    m_udpSocket->bind(QHostAddress::LocalHost, 20201);
+
+    connect(m_udpSocket, &QUdpSocket::readyRead,
+             this, &ServerService::readPendingDatagrams);
+    
     qDebug("ServerService Constructed. \n");
 }
 
@@ -34,12 +38,39 @@ ServerService::~ServerService()
 void ServerService::sendDatagrams()
 {
     QByteArray message = CreateTheDatagram();
-    m_udpSocket->writeDatagram(message, QHostAddress::LocalHost, 2020);
+    QUdpSocket* tempSocket = new QUdpSocket(this);
+    tempSocket->bind(QHostAddress::LocalHost, 2020);
+    tempSocket->writeDatagram(message, QHostAddress::LocalHost, 2020);
     qDebug("Datagram Sent. \n");
 }
+
+void ServerService::readPendingDatagrams()
+{
+    while (m_udpSocket->hasPendingDatagrams()) 
+    {
+        QNetworkDatagram datagram = m_udpSocket->receiveDatagram();
+        processTheDatagram(datagram);
+    }
+}
  
+/////////////////////// Private //////////////////////////
+
 QByteArray ServerService::CreateTheDatagram()
 {
     QByteArray stuff("This is a test message.");
     return stuff;
+}
+
+void ServerService::processTheDatagram(QNetworkDatagram datagram)
+{
+    qDebug() << "Data Recieved : " << datagram.data();
+    QByteArray message = datagram.data();
+    QHostAddress sender = datagram.senderAddress();
+    qDebug() << "Sent By : " << sender;
+
+    int val = datagram.data().toInt();
+    if (val == 0)
+    {
+        exit(0);
+    }
 }
