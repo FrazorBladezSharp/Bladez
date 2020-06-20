@@ -73,3 +73,4 @@ Thumbs.db
 
 build/Bladez
 build/.qmake.stash
+build/moc_predefs.h

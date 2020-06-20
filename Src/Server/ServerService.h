@@ -15,20 +15,24 @@
  * given by Qt    : doc.qt.io/qt-5/opensourcelicence.html
  *
  * ---------------------------------------------------*/
-#include <QGuiApplication>
+#pragma once
 
-#include "Src/Server/ServerService.h"
+#include <QObject>
+#include <QUdpSocket>
+#include <QByteArray>
 
-int main(int argc, char *argv[])
+class ServerService : public QObject
 {
-    QGuiApplication a(argc, argv);
+    Q_OBJECT
 
-    printf("Welcome to Bladez World.\n");
-    printf("Test to send a datagram to udp port 2020 \n");
+        QUdpSocket* m_udpSocket;
 
-    ServerService server;
-    server.sendDatagrams();
+    public:
+        explicit ServerService();
+        ~ServerService();
 
-    //return a.exec();
-    return 0;
-}
+        void sendDatagrams();
+ 
+    private:
+        QByteArray CreateTheDatagram();
+};

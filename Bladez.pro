@@ -1,4 +1,4 @@
-QT += core gui
+QT += core gui network
 
 TARGET = Bladez
 CONFIG += c11 c++17 console
@@ -16,9 +16,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += \
+        Src/Server/ServerService.h
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        Src/Server/ServerService.cpp 
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
