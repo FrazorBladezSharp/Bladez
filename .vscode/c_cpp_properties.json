@@ -5,7 +5,7 @@
             "includePath": [
                 "./**",
                 "${workspaceFolder}/**",
-                "/usr/include/qt"
+                "/usr/include/qt/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
